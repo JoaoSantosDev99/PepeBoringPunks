@@ -131,8 +131,8 @@ const Main = () => {
 
         {/* Opensea */}
         <p className="mt-10 w-full mb-5 text-center md:text-start text-lg md:text-xl md:max-w-2xl">
-          If you would like to purchase your own Pepe BoringPunk we encourage
-          users to browse on{" "}
+          If you would like to purchase your own Boring Ape we encourage users
+          to browse on{" "}
           <a
             target="_blank"
             rel="noreferrer"
