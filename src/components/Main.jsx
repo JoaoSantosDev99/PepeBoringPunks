@@ -1,13 +1,13 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import banner from "../assets/banner.jpg";
-import { useAccount, useSigner } from "wagmi";
+import { useAccount, useNetwork, useSigner, useSwitchNetwork } from "wagmi";
 import { ethers } from "ethers";
 import abi from "../contracts/abi.json";
 import { fromBn } from "../utils";
 
 const Main = () => {
-  const [inputAmount, setinputAmount] = useState(0);
+  const [inputAmount, setinputAmount] = useState(1);
   const [totalSupply, settotalSupply] = useState(7777);
   const [userBal, setuserBal] = useState(0);
 
@@ -17,17 +17,19 @@ const Main = () => {
   };
 
   const decreaseAmount = () => {
-    if (inputAmount === 0) return;
+    if (inputAmount === 1) return;
     setinputAmount((prevState) => prevState - 1);
   };
 
+  const { chain } = useNetwork();
   const { address, isConnected } = useAccount();
   const { data: signer } = useSigner();
+  const { switchNetwork } = useSwitchNetwork();
 
-  const contAdd = "0x55afDAC672a0F36C3BC419655b547536fE1C0530";
+  const contAdd = "0xC84AC7BF8b4cEc60d82fb93DFb61b03d5E4aCD39";
 
   const statProv = new ethers.providers.JsonRpcProvider(
-    "https://rpc.ankr.com/eth_goerli"
+    "https://rpc.ankr.com/eth"
   );
 
   const nftContract = new ethers.Contract(contAdd, abi, statProv);
@@ -47,14 +49,21 @@ const Main = () => {
   }, [address]);
 
   const mint = async () => {
-    console.log("tesr");
     if (!isConnected) return alert("Not connected");
+
+    if (chain?.id !== 5) {
+      switchNetwork?.(5);
+    }
 
     try {
       const writeContract = new ethers.Contract(contAdd, abi, signer);
+      const value =
+        userBal > "0"
+          ? ethers.utils.parseEther((0.004 * inputAmount).toString())
+          : ethers.utils.parseEther((0.004 * (inputAmount - 1)).toString());
 
       const mintNFT = await writeContract.publicMint(inputAmount, {
-        value: ethers.utils.parseEther((0.005 * inputAmount).toString()),
+        value: value,
       });
 
       await mintNFT.wait();
@@ -69,11 +78,14 @@ const Main = () => {
       <div className="px-1 max-w-screen-xl w-full flex flex-col">
         {/* Paragraph */}
         <p className="w-full text-center px-2 md:text-start md:max-w-3xl mt-20 text-xl">
-          These 5,555 boring pepes were designed as a tribute to the legendary
-          CryptoPunks with legendary Pepe vibes, one of the first and most
-          prominent examples of Non-Fungible Tokens minted on the Ethereum
-          blockchain on June 9, 2017. Become a Pepe BoringPunk, celebrate the 6
-          year anniversary with us.
+          We created 7777 unique collectibles pfps as an homage to the two epic
+          projects Bored Ape YC and Cryptopunks. We reimagined what the PFP
+          could look like with 120 hand made traits with an enhanced art style,
+          Cryptopunk framing, and Bored Ape traits, spawning the BoringApes
+          collection. There will never be more than 7777 BoringApes and each one
+          is distinct with it's own set of rarities and attributes making each
+          BoringApe different from one another. The BoringApes collection minted
+          on the Ethereum blockchain on June 14th, 2023.{" "}
         </p>
 
         {/* Stats */}
@@ -124,7 +136,7 @@ const Main = () => {
           <a
             target="_blank"
             rel="noreferrer"
-            href="https://opensea.io/"
+            href="https://opensea.io/collection/boringapesnft"
           >
             <span className="bg-[#5BEB34] p-1 rounded-lg"> Opensea.</span>
           </a>

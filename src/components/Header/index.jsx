@@ -15,12 +15,12 @@ const Header = () => {
   const { address, isConnected } = useAccount();
 
   const connectWallet = () => {
-    if (chain?.id !== 5) {
-      switchNetwork?.(5);
+    if (chain?.id !== 1) {
+      switchNetwork?.(1);
     }
 
     try {
-      switchNetwork?.(5);
+      switchNetwork?.(1);
 
       open();
     } catch (error) {
@@ -58,7 +58,7 @@ const Header = () => {
               <a
                 target="_blank"
                 rel="noreferrer"
-                href="https://twitter.com/BoringApesNFT"
+                href="https://etherscan.io/address/0xC84AC7BF8b4cEc60d82fb93DFb61b03d5E4aCD39"
               >
                 <img
                   src={etherscan}
@@ -71,7 +71,7 @@ const Header = () => {
               <a
                 target="_blank"
                 rel="noreferrer"
-                href="https://opensea.io/"
+                href="https://opensea.io/collection/boringapesnft"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
