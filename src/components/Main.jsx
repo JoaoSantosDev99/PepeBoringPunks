@@ -90,7 +90,7 @@ const Main = () => {
 
         {/* Stats */}
         <div className="flex mt-10 font-bold text-2xl w-full justify-center md:justify-start md:text-3xl gap-5">
-          <span>{7777 - totalSupply} / 7777 </span>{" "}
+          <span>{7777 - totalSupply} / 4000 </span>{" "}
           <span className="text-[#747474]"> Mints Remaining</span>
         </div>
 
